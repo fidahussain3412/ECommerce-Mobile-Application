@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Text,View,TextInput,Button,StyleSheet } from "react-native";
+import { Text,View,TextInput,Button,StyleSheet,Alert } from "react-native";
  export const FirstPage=({navigation})=>
 
 {
@@ -10,7 +10,7 @@ import { Text,View,TextInput,Button,StyleSheet } from "react-native";
 
 const HandleLogin=()=>
 {
-fetch('http://192.168.1.6/Login.php',{
+fetch('http://192.168.84.235/Login.php',{
   method:"POST",
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -23,9 +23,14 @@ fetch('http://192.168.1.6/Login.php',{
 .then(data => {
   console.log(data);
   if(data.status=="success"&&data.role=="store")
-  {navigation.navigate('store', {email:email})}
+  {navigation.navigate('store', {email:email,password:password})}
  else if(data.status=="success"&&data.role=="company")
-  {navigation.navigate('company', {email:email})}
+  {navigation.navigate('company', {email:email,password:password})}
+  else if(data.status==='error')
+  {
+
+    Alert.alert("email or password is incorrect");
+  }
   // Handle success or error based on the response from the server
 })
 .catch(error => {
@@ -38,8 +43,9 @@ fetch('http://192.168.1.6/Login.php',{
   
 return(
 
-<View>
-<Text style={{ textAlign: "center", fontSize: 25, backgroundColor: "skyblue", height: 60, paddingTop: 10 }}>Abbottabad Medicose!</Text>
+<View style={{marginTop:50}}>
+  <Text style={{textAlign:'center',fontSize:50}}>Welcome!</Text>
+<Text style={{ textAlign: "center", fontSize: 25, backgroundColor: "#3498db", height: 60, paddingTop: 10 ,borderRadius:20,marginBottom:30}}>.Sneakers</Text>
 <TextInput placeholder="email" style={mystyles.input} onChangeText={(tx)=>{setemail(tx)}}></TextInput>
 <TextInput placeholder="Password" style={mystyles.input} onChangeText={(tx)=>{setpassword(tx)}}></TextInput>
 <Button title="Signin" onPress={()=>{HandleLogin()}}></Button>
